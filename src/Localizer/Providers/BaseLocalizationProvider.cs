@@ -1,5 +1,7 @@
-﻿using Localizer.Abstraction;
+﻿using System;
+using Localizer.Abstraction;
 using Localizer.Domain;
+using Localizer.Exceptions;
 using Localizer.Factories;
 
 namespace Localizer.Providers
@@ -24,6 +26,11 @@ namespace Localizer.Providers
         {
             var entry = LocalizerEntryFactory.CreateLocalizerEntry(key, value, culture);
 
+            if (Exists(entry.Key, entry.Culture))
+            {
+                throw new DuplicateEntryException("An entry with same key and culture is already existed");
+            }
+
             this.AddEntryToStore(entry);
 
             //todo: add to cache
@@ -33,6 +40,14 @@ namespace Localizer.Providers
         {
             var entry = this.GetEntry(key, culture);
 
+            if (entry == null)
+            {
+                throw new EntryNotFoundException("An attempt to update not-existed entry, to to add it first.");
+            }
+
+            entry.Value = value;
+            entry.LastUpdatedUtc = DateTime.UtcNow;
+
             this.UpdateEntryInStore(entry);
 
             //todo : update cache
@@ -41,6 +56,11 @@ namespace Localizer.Providers
         public void DeleteEntry(string key, string culture)
         {
             var entry = this.GetEntry(key, culture);
+
+            if (entry == null)
+            {
+                throw new EntryNotFoundException("An attempt to delete not-existed entry");
+            }
 
             this.DeleteEntryFromStore(entry.Id);
 

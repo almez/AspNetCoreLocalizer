@@ -10,7 +10,7 @@ namespace Localizer
 
         private ILocalizerService _localizerService;
 
-        private object _lock = new object();
+        private static object _lock = new object();
 
         #endregion
 
@@ -25,9 +25,9 @@ namespace Localizer
 
         #region Singleton Implementation
 
-        private Localizer _localizer;
+        private static Localizer _localizer;
 
-        public Localizer Instance
+        public static Localizer Instance
         {
             set => _localizer = value;
             get
