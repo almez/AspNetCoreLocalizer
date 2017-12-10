@@ -201,7 +201,7 @@ namespace Localizer.Tests
         }
 
         [Fact(DisplayName = "BaseLocalizationProvider: GetEntry() returns null for not-existed key")]
-        public void GetEntry_WithExistingKey_ReturnsNull()
+        public void GetEntry_WithNotExistingKey_ReturnsNull()
         {
             //Arrange
             this.InitializeProvider();
@@ -211,6 +211,38 @@ namespace Localizer.Tests
 
             //Assert
             Assert.Null(result);
+        }
+
+        #endregion
+
+        #region Exists()
+
+        [Fact(DisplayName = "BaseLocalizationProvider: Exists() returns TUE for existing key for existed key")]
+        public void Exists_WithExistingKey_ReturnsTrue()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            //Act
+            var result = _provider.Exists("Welcome", "tr-TR");
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: Exists() returns FALSE for existing key for not-existed key")]
+        public void Exists_WithNotExistingKey_ReturnsFalse()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            //Act
+            var result = _provider.Exists(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+
+            //Assert
+            Assert.False(result);
         }
 
         #endregion
