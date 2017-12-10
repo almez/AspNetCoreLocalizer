@@ -7,7 +7,11 @@ namespace Localizer.Abstraction
         #region Public API
 
         void AddOrUpdateEntry(string key, string value, string culture);
-        void DeleteEntry(string key, string value, string culture);
+        void AddEntry(string key, string value, string culture);
+        void UpdateEntry(string key, string value, string culture);
+        void DeleteEntry(string key, string culture);
+        LocalizerEntry GetEntry(string key, string culture);
+        bool Exists(string key, string culture);
 
         #endregion
 

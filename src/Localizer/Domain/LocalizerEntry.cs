@@ -10,6 +10,11 @@ namespace Localizer.Domain
 
         public string Value { get; set; }
 
+        /// <summary>
+        /// Comment to translators
+        /// </summary>
+        public string Comment { get; set; }
+
         public string Culture { get; set; }
 
         public DateTime CreatedUtc { get; set; }
