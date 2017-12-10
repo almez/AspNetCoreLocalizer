@@ -1,8 +1,9 @@
 ﻿using System;
+using CachingManager.Abstraction;
 
 namespace Localizer.Domain
 {
-    public class LocalizerEntry
+    public class LocalizerEntry : IMesurable
     {
         public string Id { get; set; }
 
@@ -20,5 +21,15 @@ namespace Localizer.Domain
         public DateTime CreatedUtc { get; set; }
 
         public DateTime LastUpdatedUtc { get; set; }
+
+        public long GetSizeInBytes()
+        {
+            return sizeof(char) * (Id?.Length ?? 0) +
+                   sizeof(char) * (Key?.Length ?? 0) +
+                   sizeof(char) * (Value?.Length ?? 0) +
+                   sizeof(char) * (Comment?.Length ?? 0) +
+                   sizeof(char) * (Culture?.Length ?? 0) +
+                   8 * 2;
+        }
     }
 }

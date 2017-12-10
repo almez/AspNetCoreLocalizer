@@ -1,4 +1,5 @@
 ﻿using System;
+using CachingManager;
 using Localizer.Abstraction;
 
 namespace Localizer
@@ -26,6 +27,17 @@ namespace Localizer
         }
 
         public static bool IsProviderRegistered => LocalizationProvider != null;
+
+        #endregion
+
+        #region Cache Configuration
+
+        public static bool CacheEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Cache size-limit per culture
+        /// </summary>
+        public static long CacheLimitSize { get; set; } = 1 * 1024 * 1024;
 
         #endregion
     }

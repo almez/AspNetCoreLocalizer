@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using CachingManager;
+using CachingManager.Abstraction;
 using Localizer.Abstraction;
 using Localizer.Domain;
 using Localizer.Exceptions;
@@ -8,6 +11,13 @@ namespace Localizer.Providers
 {
     public abstract class BaseLocalizationProvider : ILocalizationProvider
     {
+
+        #region Fields
+
+        private object _lock  = new object();
+        
+        #endregion
+
         #region Public API
 
         public void AddOrUpdateEntry(string key, string value, string culture)
@@ -33,7 +43,12 @@ namespace Localizer.Providers
 
             this.AddEntryToStore(entry);
 
-            //todo: add to cache
+            var cache = this.GetCacheByCulture(culture, true);
+
+            if (cache != null)
+            {
+                cache[key] = entry;
+            }
         }
 
         public void UpdateEntry(string key, string value, string culture)
@@ -50,7 +65,12 @@ namespace Localizer.Providers
 
             this.UpdateEntryInStore(entry);
 
-            //todo : update cache
+            var cache = this.GetCacheByCulture(culture, true);
+
+            if (cache != null)
+            {
+                cache[key] = entry;
+            }
         }
 
         public void DeleteEntry(string key, string culture)
@@ -64,14 +84,29 @@ namespace Localizer.Providers
 
             this.DeleteEntryFromStore(entry.Id);
 
-            //todo : delete frmo cache
+            var cache = this.GetCacheByCulture(culture, false);
+
+            if (cache != null)
+            {
+                cache[key] = null;
+            }
         }
 
         public LocalizerEntry GetEntry(string key, string culture)
         {
-            //todo : try to get from cache
+            LocalizerEntry entry = null;
 
-            var entry = this.GetEntryFromStore(key, culture);
+            var cache = this.GetCacheByCulture(culture, false);
+
+            if (cache != null)
+            {
+                entry = cache[key];
+            }
+
+            if (entry == null)
+            {
+                entry = this.GetEntryFromStore(key, culture);
+            }
 
             return entry;
         }
@@ -92,6 +127,30 @@ namespace Localizer.Providers
         public abstract void UpdateEntryInStore(LocalizerEntry entry);
 
         public abstract void DeleteEntryFromStore(string id);
+
+        #endregion
+
+        #region Private Methods
+
+        private ICache<LocalizerEntry, string> GetCacheByCulture(string culture, bool createIfNotExist = false)
+        {
+            var cacheName = $"localizer_{culture}";
+
+            var cache  = (ICache<LocalizerEntry, string>)CacheManager.Instance.FindCacheByName(cacheName);
+
+            if (createIfNotExist)
+            {
+                lock (_lock)
+                {
+                    if (cache == null)
+                    {
+                        cache = CacheFactory.CreateCache<LocalizerEntry, string>(cacheName, Configuration.CacheLimitSize);
+                    }
+                }
+            }
+           
+            return cache;
+        }
 
         #endregion
     }
