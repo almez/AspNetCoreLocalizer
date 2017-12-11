@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Localizer.Exceptions
+namespace AspNetCoreLocalizer.Exceptions
 {
     public class EntryNotFoundException : Exception
     {

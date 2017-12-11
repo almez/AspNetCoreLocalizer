@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Localizer.Extensions
+namespace AspNetCoreLocalizer.Extensions
 {
     public static class LocalizerExtensions
     {

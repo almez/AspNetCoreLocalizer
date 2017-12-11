@@ -1,4 +1,4 @@
-﻿namespace Localizer.Abstraction
+﻿namespace AspNetCoreLocalizer.Abstraction
 {
     public interface ILocalizerService
     {

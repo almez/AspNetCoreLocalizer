@@ -1,6 +1,6 @@
-﻿using Localizer.Abstraction;
+﻿using AspNetCoreLocalizer.Abstraction;
 
-namespace Localizer.Services
+namespace AspNetCoreLocalizer.Services
 {
     public class LocalizerService : ILocalizerService
     {

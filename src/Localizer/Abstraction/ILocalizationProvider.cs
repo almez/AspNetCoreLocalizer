@@ -1,6 +1,6 @@
-﻿using Localizer.Domain;
+﻿using AspNetCoreLocalizer.Domain;
 
-namespace Localizer.Abstraction
+namespace AspNetCoreLocalizer.Abstraction
 {
     public interface ILocalizationProvider
     {

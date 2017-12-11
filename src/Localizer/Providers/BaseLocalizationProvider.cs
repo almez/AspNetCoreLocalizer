@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using CachingManager;
 using CachingManager.Abstraction;
-using Localizer.Abstraction;
-using Localizer.Domain;
-using Localizer.Exceptions;
-using Localizer.Factories;
+using AspNetCoreLocalizer.Abstraction;
+using AspNetCoreLocalizer.Domain;
+using AspNetCoreLocalizer.Exceptions;
+using AspNetCoreLocalizer.Factories;
 
-namespace Localizer.Providers
+namespace AspNetCoreLocalizer.Providers
 {
     public abstract class BaseLocalizationProvider : ILocalizationProvider
     {

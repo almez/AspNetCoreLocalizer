@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>AspNetCoreLocalizer</AssemblyName>
+    <RootNamespace>AspNetCoreLocalizer</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

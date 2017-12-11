@@ -1,8 +1,8 @@
 ﻿using System;
 using CachingManager;
-using Localizer.Abstraction;
+using AspNetCoreLocalizer.Abstraction;
 
-namespace Localizer
+namespace AspNetCoreLocalizer
 {
     public class Configuration
     {

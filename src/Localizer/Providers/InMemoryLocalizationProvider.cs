@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Localizer.Domain;
+using AspNetCoreLocalizer.Domain;
 
-namespace Localizer.Providers
+namespace AspNetCoreLocalizer.Providers
 {
     public class InMemoryLocalizationProvider : BaseLocalizationProvider
     {

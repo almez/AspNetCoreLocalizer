@@ -1,7 +1,7 @@
 ﻿using System;
 using CachingManager.Abstraction;
 
-namespace Localizer.Domain
+namespace AspNetCoreLocalizer.Domain
 {
     public class LocalizerEntry : IMesurable
     {

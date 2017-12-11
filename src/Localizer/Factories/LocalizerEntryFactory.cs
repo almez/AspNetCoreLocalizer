@@ -1,7 +1,7 @@
 ﻿using System;
-using Localizer.Domain;
+using AspNetCoreLocalizer.Domain;
 
-namespace Localizer.Factories
+namespace AspNetCoreLocalizer.Factories
 {
     public class LocalizerEntryFactory
     {

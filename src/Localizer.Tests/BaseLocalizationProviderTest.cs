@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Localizer.Domain;
-using Localizer.Exceptions;
-using Localizer.Factories;
-using Localizer.Providers;
+using AspNetCoreLocalizer.Domain;
+using AspNetCoreLocalizer.Exceptions;
+using AspNetCoreLocalizer.Factories;
+using AspNetCoreLocalizer.Providers;
 using Xunit;
 
-namespace Localizer.Tests
+namespace AspNetCoreLocalizer.Tests
 {
     public class BaseLocalizationProvider
     {

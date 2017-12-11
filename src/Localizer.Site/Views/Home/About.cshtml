@@ -1,7 +1,18 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@using System.Globalization
+@model AboutViewModel
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewData["Title"] = "About";
+
+    Localizer.Localizer.Instance["CompanyName", "en-US"] = "Company Name";
+}
+<h1>
+    Culture : @(CultureInfo.CurrentCulture) <br />
+    UI Culture : @(CultureInfo.CurrentUICulture) <br />
+</h1>
+<h2>@Html.DisplayNameFor(model => model.CompanyName) :  @Model.CompanyName</h2>
+<h3>@Html.DisplayNameFor(model => model.Address) : @Model.Address</h3>
+
+<p>
+    @Html.DisplayNameFor(model => model.Description) :  @Model.Description
+</p>

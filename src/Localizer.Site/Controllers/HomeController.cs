@@ -13,9 +13,16 @@ namespace Localizer.Site.Controllers
 
         public IActionResult About()
         {
+            var model = new AboutViewModel()
+            {
+                CompanyName = "ALMEZ",
+                Address = "M City, Ampang",
+                Description = "Here you can find a short description about our company and what we do in general."
+            };
+
             ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return View(model);
         }
 
         public IActionResult Contact()
