@@ -1,31 +1,51 @@
-﻿using AspNetCoreLocalizer.Abstraction;
+﻿using System;
+using AspNetCoreLocalizer.Abstraction;
 
 namespace AspNetCoreLocalizer.Services
 {
     public class LocalizerService : ILocalizerService
     {
+        #region Fields
+
+        private readonly ILocalizationProvider _provider;
+
+        #endregion
+
+        #region C'tor
+
+        public LocalizerService()
+        {
+            this._provider = Configuration.LocalizationProvider;
+        }
+
+        #endregion
+
+        #region Public Methods
+
         public void SetEntry(string key, string value, string culture)
         {
-            Configuration.LocalizationProvider.AddOrUpdateEntry(key, value, culture);
+            this._provider.AddOrUpdateEntry(key, value, culture);
         }
 
         public string GetLocalizedValue(string key, string culture)
         {
-            //todo : fail back logic should be here
+            var result = this._provider.GetEntry(key, culture);
 
-            //// failback logic
-            //if (Configuration.DefaultCulture != null && !String.Equals(Configuration.DefaultCulture.Name, culture, StringComparison.CurrentCultureIgnoreCase))
-            //{
-            //    //todo : some log here
+            // failback logic
+            if (Configuration.DefaultCulture != null && !String.Equals(Configuration.DefaultCulture.Name, culture, StringComparison.CurrentCultureIgnoreCase))
+            {
+                //todo : some log here
+                result =  this._provider.GetEntry(key, Configuration.DefaultCulture.Name);
+            }
 
-            //    return this.GetEntry(key, Configuration.DefaultCulture.Name);
-            //}
-            return Configuration.LocalizationProvider.GetEntry(key, culture)?.Value;
+            return result?.Value;
         }
 
         public void ClearAll()
         {
-            Configuration.LocalizationProvider.ClearAll();
+            this._provider.ClearAll();
         }
+
+        #endregion
     }
 }
