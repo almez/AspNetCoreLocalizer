@@ -1,4 +1,5 @@
-﻿using AspNetCoreLocalizer.Abstraction;
+﻿using System.Globalization;
+using AspNetCoreLocalizer.Abstraction;
 using AspNetCoreLocalizer.Services;
 
 namespace AspNetCoreLocalizer
@@ -54,7 +55,14 @@ namespace AspNetCoreLocalizer
             set => _localizerService.SetEntry(key, value, culture);
         }
 
+        public string this[string key]
+        {
+            get => _localizerService.GetLocalizedValue(key, CultureInfo.CurrentCulture.Name);
+        }
+
         #endregion
+
+        public void ClearAll() => _localizerService.ClearAll();
 
     }
 }

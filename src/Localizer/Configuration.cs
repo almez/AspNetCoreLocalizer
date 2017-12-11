@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using CachingManager;
 using AspNetCoreLocalizer.Abstraction;
 
@@ -40,5 +41,7 @@ namespace AspNetCoreLocalizer
         public static long CacheLimitSize { get; set; } = 1 * 1024 * 1024;
 
         #endregion
+
+        public static CultureInfo DefaultCulture { set; get; } = CultureInfo.InvariantCulture;
     }
 }

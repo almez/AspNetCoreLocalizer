@@ -8,7 +8,16 @@ namespace AspNetCoreLocalizer.Providers
     {
         #region Fields
 
-        public List<LocalizerEntry> LocalizerEntries { get; set; } = new List<LocalizerEntry>();
+        public List<LocalizerEntry> LocalizerEntries { get; set; }
+
+        #endregion
+
+        #region C'tor
+
+        public InMemoryLocalizationProvider()
+        {
+            this.LocalizerEntries = new List<LocalizerEntry>();
+        }
 
         #endregion
 
@@ -36,6 +45,11 @@ namespace AspNetCoreLocalizer.Providers
         {
             var entryInStore = this.LocalizerEntries.SingleOrDefault(x => x.Id == id);
             this.LocalizerEntries.Remove(entryInStore);
+        }
+
+        public override void ClearAllFromStore()
+        {
+            this.LocalizerEntries = new List<LocalizerEntry>();
         }
 
         #endregion

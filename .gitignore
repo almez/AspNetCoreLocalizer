@@ -13,3 +13,4 @@
 /src/.vs/config
 /src/Localizer.Site/obj
 /src/AspNetCoreLocalizer.Site/obj
+/src/AspNetCoreLocalizer.Site/bin/Debug/netcoreapp2.0

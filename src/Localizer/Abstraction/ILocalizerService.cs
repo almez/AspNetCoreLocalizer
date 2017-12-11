@@ -4,5 +4,7 @@
     {
         void SetEntry(string key, string value, string culture);
         string GetLocalizedValue(string key, string culture);
+
+        void ClearAll();
     }
 }

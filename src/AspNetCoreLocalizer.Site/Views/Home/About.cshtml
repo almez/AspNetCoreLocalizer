@@ -1,19 +1,68 @@
 ﻿@using System.Globalization
 @using AspNetCoreLocalizer
+@using AspNetCoreLocalizer.Providers
 @model AboutViewModel
 
 @{
     ViewData["Title"] = "About";
 
-    Localizer.Instance["CompanyName", "en-US"] = "Company Name";
+    var provider = new InMemoryLocalizationProvider();
+    AspNetCoreLocalizer.Configuration.LocalizationProvider = provider;
+
+    Localizer.Instance.ClearAll();
+
+
+    Localizer.Instance["CompanyName", ""] = "Company Name (Invariant)";
+
+    Localizer.Instance["CompanyName", "tr-TR"] = "Company Name (TR)";
+
+    // CultureInfo.CurrentCulture = new CultureInfo("tr-TR");
+
+    Model.CompanyName = Localizer.Instance["CompanyName", ""];
 }
 <h1>
-    Culture : @(CultureInfo.CurrentCulture) <br />
-    UI Culture : @(CultureInfo.CurrentUICulture) <br />
+    Localization Test
 </h1>
-<h2>@Html.DisplayNameFor(model => model.CompanyName) :  @Model.CompanyName</h2>
-<h3>@Html.DisplayNameFor(model => model.Address) : @Model.Address</h3>
+<hr />
+<table width="100%">
+    <tr>
+        <td>Culture </td>
+        <td>@(CultureInfo.CurrentCulture.Name) </td>
+    </tr>
+    <tr>
+        <td>UI Culture</td>
+        <td>@(CultureInfo.CurrentUICulture.Name) </td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.CompanyName)</td>
+        <td>@Model.CompanyName</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Address)</td>
+        <td>@Model.Address</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Description)</td>
+        <td>@Model.Description</td>
+    </tr>
+</table>
 
-<p>
-    @Html.DisplayNameFor(model => model.Description) :  @Model.Description
-</p>
+<h2> Localization Content </h2>
+<hr/>
+<table width="100%">
+    <thead>
+        <tr>
+            <td>Key</td>
+            <td>Value</td>
+            <td>Culture</td>
+        </tr>
+        @foreach (var entry in provider.LocalizerEntries)
+        {
+            <tr>
+                <td>@entry.Key</td>
+                <td>@entry.Value</td>
+                <td>@entry.Culture</td>
+            </tr>
+        }
+    </thead>
+</table>

@@ -17,12 +17,7 @@ namespace AspNetCoreLocalizer.Site.Controllers
 
         public IActionResult About()
         {
-            var model = new AboutViewModel()
-            {
-                CompanyName = "ALMEZ",
-                Address = "M City, Ampang",
-                Description = "Here you can find a short description about our company and what we do in general."
-            };
+            var model = new AboutViewModel();
 
             ViewData["Message"] = "Your application description page.";
 

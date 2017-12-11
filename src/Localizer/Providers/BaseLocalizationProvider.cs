@@ -6,6 +6,7 @@ using AspNetCoreLocalizer.Abstraction;
 using AspNetCoreLocalizer.Domain;
 using AspNetCoreLocalizer.Exceptions;
 using AspNetCoreLocalizer.Factories;
+using System.Linq;
 
 namespace AspNetCoreLocalizer.Providers
 {
@@ -38,16 +39,19 @@ namespace AspNetCoreLocalizer.Providers
 
             if (Exists(entry.Key, entry.Culture))
             {
-                throw new DuplicateEntryException("An entry with same key and culture is already existed");
+                throw new DuplicateEntryException($"An entry with same key and culture is already existed [{key}, {culture}]");
             }
 
             this.AddEntryToStore(entry);
 
-            var cache = this.GetCacheByCulture(culture, true);
-
-            if (cache != null)
+            if (Configuration.CacheEnabled)
             {
-                cache[key] = entry;
+                var cache = this.GetCacheByCulture(culture, true);
+
+                if (cache != null)
+                {
+                    cache[key] = entry;
+                }
             }
         }
 
@@ -65,11 +69,14 @@ namespace AspNetCoreLocalizer.Providers
 
             this.UpdateEntryInStore(entry);
 
-            var cache = this.GetCacheByCulture(culture, true);
-
-            if (cache != null)
+            if (Configuration.CacheEnabled)
             {
-                cache[key] = entry;
+                var cache = this.GetCacheByCulture(culture, true);
+
+                if (cache != null)
+                {
+                    cache[key] = entry;
+                }
             }
         }
 
@@ -84,11 +91,14 @@ namespace AspNetCoreLocalizer.Providers
 
             this.DeleteEntryFromStore(entry.Id);
 
-            var cache = this.GetCacheByCulture(culture, false);
-
-            if (cache != null)
+            if (Configuration.CacheEnabled)
             {
-                cache[key] = null;
+                var cache = this.GetCacheByCulture(culture, false);
+
+                if (cache != null)
+                {
+                    cache[key] = null;
+                }
             }
         }
 
@@ -96,11 +106,14 @@ namespace AspNetCoreLocalizer.Providers
         {
             LocalizerEntry entry = null;
 
-            var cache = this.GetCacheByCulture(culture, false);
-
-            if (cache != null)
+            if (Configuration.CacheEnabled)
             {
-                entry = cache[key];
+                var cache = this.GetCacheByCulture(culture, false);
+
+                if (cache != null)
+                {
+                    entry = cache[key];
+                }
             }
 
             if (entry == null)
@@ -116,6 +129,23 @@ namespace AspNetCoreLocalizer.Providers
             return GetEntry(key, culture) != null;
         }
 
+        public void ClearAll()
+        {
+            if (Configuration.CacheEnabled)
+            {
+                var cacheList = (List<ICache>)CacheManager.Instance.ListCaches();
+                cacheList = cacheList.Where(x => x.Name.StartsWith(Constants.CacheNamePrefix)).ToList();
+
+                foreach (var cache in cacheList)
+                {
+                    cache.Clear();
+                }
+            }
+            
+            this.ClearAllFromStore();
+
+        }
+
         #endregion
 
         #region Abstraction
@@ -128,13 +158,20 @@ namespace AspNetCoreLocalizer.Providers
 
         public abstract void DeleteEntryFromStore(string id);
 
+        public abstract void ClearAllFromStore();
+
         #endregion
 
         #region Private Methods
 
         private ICache<LocalizerEntry, string> GetCacheByCulture(string culture, bool createIfNotExist = false)
         {
-            var cacheName = $"localizer_{culture}";
+            if (!Configuration.CacheEnabled)
+            {
+                throw new Exception("Cache is not enabled [Configuration.CacheEnabled]");
+            }
+
+            var cacheName = $"{Constants.CacheNamePrefix}{culture}";
 
             var cache  = (ICache<LocalizerEntry, string>)CacheManager.Instance.FindCacheByName(cacheName);
 

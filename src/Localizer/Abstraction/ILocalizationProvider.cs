@@ -12,6 +12,7 @@ namespace AspNetCoreLocalizer.Abstraction
         void DeleteEntry(string key, string culture);
         LocalizerEntry GetEntry(string key, string culture);
         bool Exists(string key, string culture);
+        void ClearAll();
 
         #endregion
 
@@ -21,6 +22,7 @@ namespace AspNetCoreLocalizer.Abstraction
         void AddEntryToStore(LocalizerEntry entry);
         void UpdateEntryInStore(LocalizerEntry entry);
         void DeleteEntryFromStore(string id);
+        void ClearAllFromStore();
 
         #endregion
     }

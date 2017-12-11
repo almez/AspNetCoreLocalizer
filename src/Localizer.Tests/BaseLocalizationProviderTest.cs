@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AspNetCoreLocalizer.Domain;
 using AspNetCoreLocalizer.Exceptions;
 using AspNetCoreLocalizer.Factories;
 using AspNetCoreLocalizer.Providers;
+using CachingManager;
 using Xunit;
 
 namespace AspNetCoreLocalizer.Tests
@@ -28,6 +30,7 @@ namespace AspNetCoreLocalizer.Tests
         public void InitializeProvider()
         {
             this._provider = new InMemoryLocalizationProvider();
+            CacheManager.Instance.ClearAll();
         }
 
         #endregion
@@ -112,6 +115,62 @@ namespace AspNetCoreLocalizer.Tests
             });
         }
 
+        [Fact(DisplayName = "BaseLocalizationProvider: AddEntry() adds entry to cache if CacheEnabled")]
+        public void AddEntry_CacheEnabled_AddsEntryToCache()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            AspNetCoreLocalizer.Configuration.CacheEnabled = true;
+
+            //Act
+            _provider.AddEntry("Welcome", "Welcome (TR)", "tr-TR");
+            _provider.AddEntry("Welcome", "Welcome (AR)", "ar-AR");
+            _provider.AddEntry("Welcome", "Welcome (En)", "en-US");
+            _provider.AddEntry("Welcome", "Welcome (Invariant)", "");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Assert
+            var welcomeTr = _provider.GetEntry("Welcome", "tr-TR")?.Value;
+            var welcomeAr = _provider.GetEntry("Welcome", "ar-AR")?.Value;
+            var welcomeEn = _provider.GetEntry("Welcome", "en-US")?.Value;
+            var welcomeInvariant = _provider.GetEntry("Welcome", "")?.Value;
+
+            Assert.Equal(welcomeTr, "Welcome (TR)");
+            Assert.Equal(welcomeAr, "Welcome (AR)");
+            Assert.Equal(welcomeEn, "Welcome (En)");
+            Assert.Equal(welcomeInvariant, "Welcome (Invariant)");
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: AddEntry() adds nothing to cache if CacheDisbled")]
+        public void AddEntry_CacheDisabled_AddsNothingToCache()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            AspNetCoreLocalizer.Configuration.CacheEnabled = false;
+
+            //Act
+            _provider.AddEntry("Welcome", "Welcome (TR)", "tr-TR");
+            _provider.AddEntry("Welcome", "Welcome (AR)", "ar-AR");
+            _provider.AddEntry("Welcome", "Welcome (En)", "en-US");
+            _provider.AddEntry("Welcome", "Welcome (Invariant)", "");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Assert
+            var welcomeTr = _provider.GetEntry("Welcome", "tr-TR");
+            var welcomeAr = _provider.GetEntry("Welcome", "ar-AR");
+            var welcomeEn = _provider.GetEntry("Welcome", "en-US");
+            var welcomeInvariant = _provider.GetEntry("Welcome", "");
+
+            Assert.Null(welcomeTr);
+            Assert.Null(welcomeAr);
+            Assert.Null(welcomeEn);
+            Assert.Null(welcomeInvariant);
+        }
+
         #endregion
 
         #region UpdateEntry()
@@ -144,6 +203,49 @@ namespace AspNetCoreLocalizer.Tests
             {
                 _provider.UpdateEntry(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "tr-TR");
             });
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: UpdateEntry() updates cache if CacheEnabled")]
+        public void UpdateEntry_CacheEnabled_UpdatesCache()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = true;
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            //Act
+            _provider.UpdateEntry("Welcome", "hoş geldiniz", "tr-TR");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Assert
+            var result = _provider.GetEntry("Welcome", "tr-TR");
+
+            Assert.NotNull(result);
+            Assert.Equal("hoş geldiniz", result.Value);
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: UpdateEntry() updates nothing to cache if CacheDisabled")]
+        public void UpdateEntry_CacheDisabled_DoesntUpdatesCache()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = false;
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            //Act
+            _provider.UpdateEntry("Welcome", "hoş geldiniz", "tr-TR");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Assert
+            var result = _provider.GetEntry("Welcome", "tr-TR");
+
+            Assert.Null(result);
         }
 
         #endregion
@@ -181,6 +283,48 @@ namespace AspNetCoreLocalizer.Tests
             });
         }
 
+        [Fact(DisplayName = "BaseLocalizationProvider: DeleteEntry() deletes entry from cache if cache enabled")]
+        public void DeleteEntry_CacheEnabled_DeletesEntryFromCache()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = true;
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            //Act
+            _provider.DeleteEntry("Welcome", "tr-TR");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Assert
+            var result = _provider.GetEntry("Welcome", "tr-TR");
+
+            Assert.Null(result);
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: DeleteEntry() nothing to delete from cache if cache disabled")]
+        public void DeleteEntry_CacheDisabled_NothingToDeleteFromCache()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = false;
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            //Act
+            _provider.DeleteEntry("Welcome", "tr-TR");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Assert
+            var result = _provider.GetEntry("Welcome", "tr-TR");
+
+            Assert.Null(result);
+        }
+
         #endregion
 
         #region GetEntry()
@@ -208,6 +352,45 @@ namespace AspNetCoreLocalizer.Tests
 
             //Act
             var result = _provider.GetEntry(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+
+            //Assert
+            Assert.Null(result);
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: GetEntry() retreives entry from cache first [CacheEnabled]")]
+        public void GetEntry_CacheEnabled_RetreivesEntryFromCacheFirst()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = true;
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Act
+            var result = _provider.GetEntry("Welcome", "tr-TR");
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal("Merhaba", result.Value);
+        }
+
+        [Fact(DisplayName = "BaseLocalizationProvider: GetEntry() retreives entry from store if [CacheDisabled]")]
+        public void GetEntry_CachDisabled_RetreivesEntryFromStore()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = false;
+
+            _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
+
+            _provider.LocalizerEntries = new List<LocalizerEntry>();
+
+            //Act
+            var result = _provider.GetEntry("Welcome", "tr-TR");
 
             //Assert
             Assert.Null(result);
@@ -245,6 +428,37 @@ namespace AspNetCoreLocalizer.Tests
             Assert.False(result);
         }
 
+        #endregion
+
+        #region ClearAll()
+
+        [Fact(DisplayName = "BaseLocalizationProvider: ClearAll() clear all localizer caches")]
+        public void ClearAll_CacheEnabled_ClearAllRelateCaches()
+        {
+            //Arrange
+            this.InitializeProvider();
+
+            Configuration.CacheEnabled = true;
+
+            _provider.AddEntry("Welcome", "Welcome (TR)", "tr-TR");
+            _provider.AddEntry("Welcome", "Welcome (AR)", "ar-AR");
+            _provider.AddEntry("Welcome", "Welcome (En)", "en-US");
+            _provider.AddEntry("Welcome", "Welcome (Invariant)", "");
+
+            //Act
+            _provider.ClearAll();
+
+            //Assert
+            var welcomeTr = _provider.GetEntry("Welcome", "tr-TR");
+            var welcomeAr = _provider.GetEntry("Welcome", "ar-AR");
+            var welcomeEn = _provider.GetEntry("Welcome", "en-US");
+            var welcomeInvariant = _provider.GetEntry("Welcome", "");
+
+            Assert.Null(welcomeTr);
+            Assert.Null(welcomeAr);
+            Assert.Null(welcomeEn);
+            Assert.Null(welcomeInvariant);
+        }
         #endregion
     }
 }
