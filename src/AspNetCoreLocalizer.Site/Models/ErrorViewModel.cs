@@ -1,6 +1,6 @@
 using System;
 
-namespace Localizer.Site.Models
+namespace AspNetCoreLocalizer.Site.Models
 {
     public class ErrorViewModel
     {

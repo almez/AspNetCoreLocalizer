@@ -1,10 +1,11 @@
 ﻿@using System.Globalization
+@using AspNetCoreLocalizer
 @model AboutViewModel
 
 @{
     ViewData["Title"] = "About";
 
-    Localizer.Localizer.Instance["CompanyName", "en-US"] = "Company Name";
+    Localizer.Instance["CompanyName", "en-US"] = "Company Name";
 }
 <h1>
     Culture : @(CultureInfo.CurrentCulture) <br />

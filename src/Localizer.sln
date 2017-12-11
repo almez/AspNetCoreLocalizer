@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreLocalizer", "Loca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreLocalizer.Tests", "Localizer.Tests\AspNetCoreLocalizer.Tests.csproj", "{C4D0B9CD-AC16-4DB8-9977-62663EAF0346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreLocalizer.Site", "AspNetCoreLocalizer.Site\AspNetCoreLocalizer.Site.csproj", "{0E8F6E35-427C-4E43-9F24-5E6193188350}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C4D0B9CD-AC16-4DB8-9977-62663EAF0346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4D0B9CD-AC16-4DB8-9977-62663EAF0346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4D0B9CD-AC16-4DB8-9977-62663EAF0346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8F6E35-427C-4E43-9F24-5E6193188350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8F6E35-427C-4E43-9F24-5E6193188350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8F6E35-427C-4E43-9F24-5E6193188350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8F6E35-427C-4E43-9F24-5E6193188350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

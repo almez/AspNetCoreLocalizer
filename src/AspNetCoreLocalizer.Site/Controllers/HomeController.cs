@@ -1,8 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Localizer.Site.Models;
+using AspNetCoreLocalizer.Site.Models;
 
-namespace Localizer.Site.Controllers
+namespace AspNetCoreLocalizer.Site.Controllers
 {
     public class HomeController : Controller
     {

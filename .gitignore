@@ -12,3 +12,4 @@
 /src/Localizer.Site/bin/Debug/netcoreapp2.0
 /src/.vs/config
 /src/Localizer.Site/obj
+/src/AspNetCoreLocalizer.Site/obj
