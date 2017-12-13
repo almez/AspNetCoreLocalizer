@@ -2,13 +2,13 @@
 
 namespace AspNetCoreLocalizer.Attributes
 {
-    public  class LocalizedDisplayName : DisplayNameAttribute
+    public  class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
         private readonly string _resourceKey;
 
         #region C'tor
 
-        public LocalizedDisplayName(string resourceKey)
+        public LocalizedDisplayNameAttribute(string resourceKey)
         {
             this._resourceKey = resourceKey;
         }

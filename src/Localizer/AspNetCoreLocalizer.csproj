@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CachingManager" Version="1.0.23" />
   </ItemGroup>
 
