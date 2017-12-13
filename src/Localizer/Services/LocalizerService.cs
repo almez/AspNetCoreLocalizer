@@ -46,9 +46,6 @@ namespace AspNetCoreLocalizer.Services
                     cultureInfo = cultureInfo.Parent;
 
                 } while (cultureInfo.Name != cultureInfo.Parent.Name && result == null);
-                
-
-                
             }
 
             return result?.Value;
