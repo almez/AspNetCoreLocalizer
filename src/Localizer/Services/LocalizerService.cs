@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using AspNetCoreLocalizer.Abstraction;
 
 namespace AspNetCoreLocalizer.Services
@@ -7,15 +8,15 @@ namespace AspNetCoreLocalizer.Services
     {
         #region Fields
 
-        private readonly ILocalizationProvider _provider;
+        private readonly ILocalizationProvider _localizationProvider;
 
         #endregion
 
         #region C'tor
 
-        public LocalizerService()
+        public LocalizerService(ILocalizationProvider localizationProvider)
         {
-            this._provider = Configuration.LocalizationProvider;
+            this._localizationProvider = localizationProvider;
         }
 
         #endregion
@@ -24,18 +25,30 @@ namespace AspNetCoreLocalizer.Services
 
         public void SetEntry(string key, string value, string culture)
         {
-            this._provider.AddOrUpdateEntry(key, value, culture);
+            this._localizationProvider.AddOrUpdateEntry(key, value, culture);
         }
 
         public string GetLocalizedValue(string key, string culture)
         {
-            var result = this._provider.GetEntry(key, culture);
+            var result = this._localizationProvider.GetEntry(key, culture);
 
-            // failback logic
-            if (Configuration.DefaultCulture != null && !String.Equals(Configuration.DefaultCulture.Name, culture, StringComparison.CurrentCultureIgnoreCase))
+            // fallback logic
+            if (result == null & Configuration.FallbackEnabled)
             {
-                //todo : some log here
-                result =  this._provider.GetEntry(key, Configuration.DefaultCulture.Name);
+                CultureInfo cultureInfo = new CultureInfo(culture);
+                do
+                {
+                    if (cultureInfo.Name != cultureInfo.Parent.Name)
+                    {
+                        //todo : some log here
+                        result = this._localizationProvider.GetEntry(key, cultureInfo.Parent.Name);
+                    }
+                    cultureInfo = cultureInfo.Parent;
+
+                } while (cultureInfo.Name != cultureInfo.Parent.Name && result == null);
+                
+
+                
             }
 
             return result?.Value;
@@ -43,7 +56,7 @@ namespace AspNetCoreLocalizer.Services
 
         public void ClearAll()
         {
-            this._provider.ClearAll();
+            this._localizationProvider.ClearAll();
         }
 
         #endregion

@@ -42,6 +42,6 @@ namespace AspNetCoreLocalizer
 
         #endregion
 
-        public static CultureInfo DefaultCulture { set; get; } = CultureInfo.InvariantCulture;
+        public static bool FallbackEnabled { set; get; } = true;
     }
 }

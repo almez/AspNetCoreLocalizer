@@ -19,7 +19,7 @@ namespace AspNetCoreLocalizer
 
         private Localizer()
         {
-            _localizerService = new LocalizerService();
+            _localizerService = new LocalizerService(Configuration.LocalizationProvider);
         }
 
         #endregion
