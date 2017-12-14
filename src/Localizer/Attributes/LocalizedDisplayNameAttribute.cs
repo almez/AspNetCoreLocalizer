@@ -35,7 +35,15 @@ namespace AspNetCoreLocalizer.Attributes
 
         #region Public Properties
 
-        public override string DisplayName => _localizerService.GetLocalizedValue(_resourceKey);
+        public override string DisplayName
+        {
+            get
+            {
+                var localizedValue = _localizerService.GetLocalizedValue(_resourceKey);
+
+                return string.IsNullOrEmpty(localizedValue) ? _resourceKey : localizedValue;
+            }
+        }
 
         #endregion
     }

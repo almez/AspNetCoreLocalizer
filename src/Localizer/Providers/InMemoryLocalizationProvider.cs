@@ -49,6 +49,7 @@ namespace AspNetCoreLocalizer.Providers
 
         public override void ClearAllFromStore()
         {
+            this.LocalizerEntries.Clear();
             this.LocalizerEntries = new List<LocalizerEntry>();
         }
 

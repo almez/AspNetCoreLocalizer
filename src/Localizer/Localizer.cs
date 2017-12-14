@@ -57,7 +57,7 @@ namespace AspNetCoreLocalizer
 
         public string this[string key]
         {
-            get => _localizerService.GetLocalizedValue(key, CultureInfo.CurrentCulture.Name);
+            get => _localizerService.GetLocalizedValue(key);
         }
 
         #endregion

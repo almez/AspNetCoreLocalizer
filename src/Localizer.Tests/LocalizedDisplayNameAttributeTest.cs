@@ -32,5 +32,21 @@ namespace AspNetCoreLocalizer.Tests
             //Assert
             Assert.Equal("Email Address", result);
         }
+
+        [Fact(DisplayName = "LocalizedDisplayNameAttribute: Set the resouce key s display name if the localized value not existed")]
+        public void LocalizedDisplayName_WithNotExistingResourceKey_ReturnsTheResourceKeyAsDisplayName()
+        {
+            //Arrange
+            //Arrange
+            _mockLocalizerService = new Mock<ILocalizerService>();
+
+            this._localizedDisplayNameAttribute = new LocalizedDisplayNameAttribute(_mockLocalizerService.Object, "Email");
+
+            //Act
+            var result = _localizedDisplayNameAttribute.DisplayName;
+
+            //Assert
+            Assert.Equal("Email", result);
+        }
     }
 }
