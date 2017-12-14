@@ -51,6 +51,11 @@ namespace AspNetCoreLocalizer.Services
             return result?.Value;
         }
 
+        public string GetLocalizedValue(string key)
+        {
+            return this.GetLocalizedValue(key, CultureInfo.CurrentUICulture.Name);
+        }
+
         public void ClearAll()
         {
             this._localizationProvider.ClearAll();
