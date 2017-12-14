@@ -14,3 +14,9 @@
 /src/Localizer.Site/obj
 /src/AspNetCoreLocalizer.Site/obj
 /src/AspNetCoreLocalizer.Site/bin/Debug/netcoreapp2.0
+/src/.vs/AspNetCoreLocalizer/v15
+/src/AspNetCoreLocalizer/bin/Debug/netcoreapp2.0
+/src/AspNetCoreLocalizer/obj
+/src/AspNetCoreLocalizer.Tests/bin/Debug/netcoreapp2.0
+/src/AspNetCoreLocalizer.Tests/obj
+/src/AspNetCoreLocalizer/todo.txt
