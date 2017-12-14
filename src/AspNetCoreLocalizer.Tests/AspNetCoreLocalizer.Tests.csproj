@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AspNetCoreLocalizer\AspNetCoreLocalizer.csproj" />
     <ProjectReference Include="..\Localizer\AspNetCoreLocalizer.csproj" />
   </ItemGroup>
 
