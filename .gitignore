@@ -20,3 +20,7 @@
 /src/AspNetCoreLocalizer.Tests/bin/Debug/netcoreapp2.0
 /src/AspNetCoreLocalizer.Tests/obj
 /src/AspNetCoreLocalizer/todo.txt
+/src/AspNetCoreLocalizer/bin/Release/netcoreapp2.0
+tools/**
+!tools/packages.config
+/src/AspNetCoreLocalizer.Tests/bin/Release/netcoreapp2.0

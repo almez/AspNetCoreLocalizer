@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AspNetCoreLocalizer</id>
+    <!--<version>1.0.0</version>-->
+    <authors>Alden Menzalgy</authors>
+    <owners>Alden Menzalgy</owners>
+    <licenseUrl>https://github.com/almez/AspNetCoreLocalizer/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/almez/AspNetCoreLocalizer</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET Core 2.0 Localizer</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>.NETCORE2.0 Localization Globalization Internationalization</tags>
+    <dependencies>
+      <dependency id="CachingManager" version="1.0.21" />
+    </dependencies>
+  </metadata>
+</package>

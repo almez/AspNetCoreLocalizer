@@ -1,0 +1,30 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+before_build:
+- ps: nuget restore '.\src\AspNetCoreLocalizer.sln'
+build:
+  project: src\AspNetCoreLocalizer.sln
+  parallel: true
+  verbosity: minimal
+after_build:
+- cmd: PowerShell -Version 2.0 .\build.ps1
+test_script:
+- cmd: dotnet test "src\AspNetCoreLocalizer.Tests\AspNetCoreLocalizer.Tests.csproj" --configuration Release --no-build
+artifacts:
+- path: Extendable.*.nupkg
+  name: Push to NuGet
+deploy:
+- provider: NuGet
+  api_key:
+    secure: YJ757SM9zR7PnGl+CWUHjcgPhsIDh3XNA04smLWWQr0YHbU+ADCr/heVgrO+Bzua
+  skip_symbols: true
+  artifact: /.*\.nupkg/
