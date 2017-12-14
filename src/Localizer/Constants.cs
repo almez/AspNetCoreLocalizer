@@ -10,7 +10,8 @@
 
         #region Default Resource Keys
 
-        public const string RequiredAttributeResourceKey = "RequiredAttributeResourceKey";
+        public const string DefaultRequiredAttributeResourceKey = "RequiredAttributeResourceKey";
+        public const string DefaultRequiredAttributeResourceValue = "The {0} field is required.";
 
         #endregion
     }

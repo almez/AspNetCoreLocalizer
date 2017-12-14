@@ -19,7 +19,6 @@ namespace AspNetCoreLocalizer.Tests
         public void LocalizedDisplayName_WithExistingResourceKey_ReturnsTheLocalizedValue()
         {
             //Arrange
-            //Arrange
             _mockLocalizerService = new Mock<ILocalizerService>();
 
             _mockLocalizerService.Setup(m => m.GetLocalizedValue("Email")).Returns("Email Address");
@@ -36,7 +35,6 @@ namespace AspNetCoreLocalizer.Tests
         [Fact(DisplayName = "LocalizedDisplayNameAttribute: Set the resouce key s display name if the localized value not existed")]
         public void LocalizedDisplayName_WithNotExistingResourceKey_ReturnsTheResourceKeyAsDisplayName()
         {
-            //Arrange
             //Arrange
             _mockLocalizerService = new Mock<ILocalizerService>();
 

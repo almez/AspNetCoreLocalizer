@@ -28,7 +28,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             _mockLocalizerService = new Mock<ILocalizerService>();
 
-            _mockLocalizerService.Setup(m => m.GetLocalizedValue(Constants.RequiredAttributeResourceKey))
+            _mockLocalizerService.Setup(m => m.GetLocalizedValue(Constants.DefaultRequiredAttributeResourceKey))
                 .Returns("Default Localized Value");
 
             this._localizedRequiredAttribute = new LocalizedRequiredAttribute(_mockLocalizerService.Object);
@@ -46,7 +46,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             _mockLocalizerService = new Mock<ILocalizerService>();
 
-            _mockLocalizerService.Setup(m => m.GetLocalizedValue(Constants.RequiredAttributeResourceKey))
+            _mockLocalizerService.Setup(m => m.GetLocalizedValue(Constants.DefaultRequiredAttributeResourceKey))
                 .Returns("Default Localized Value");
 
             _mockLocalizerService.Setup(m => m.GetLocalizedValue("Custome Required Resuorce Key"))
