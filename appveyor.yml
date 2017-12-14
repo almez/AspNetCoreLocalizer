@@ -20,7 +20,7 @@ after_build:
 test_script:
 - cmd: dotnet test "src\AspNetCoreLocalizer.Tests\AspNetCoreLocalizer.Tests.csproj" --configuration Release --no-build
 artifacts:
-- path: Extendable.*.nupkg
+- path: AspNetCoreLocalizer.*.nupkg
   name: Push to NuGet
 deploy:
 - provider: NuGet
