@@ -29,7 +29,7 @@ namespace AspNetCoreLocalizer.Attributes
         }
 
         public LocalizedRequiredAttribute(string resourceKey = null) : 
-            this(new LocalizerService(Configuration.LocalizationProvider), resourceKey)
+            this(Localizer.Instance.LocalizerService, resourceKey)
         {
             
         }

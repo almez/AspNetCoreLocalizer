@@ -12,15 +12,28 @@ namespace AspNetCoreLocalizer.Providers
 {
     public abstract class BaseLocalizationProvider : ILocalizationProvider
     {
-
         #region Fields
 
         private object _lock  = new object();
-        
+
+        #endregion
+
+        #region Provider Configuration
+
+        /// <inheritdoc/>
+        public virtual bool CacheEnabled { get; set; } = true;
+
+        /// <inheritdoc/>
+        public virtual long CacheLimitSize { get; set; } = 1 * 1024 * 1024;
+
+        /// <inheritdoc/>
+        public virtual bool FallbackEnabled { get; set; }
+
         #endregion
 
         #region Public API
 
+        /// <inheritdoc/>
         public void AddOrUpdateEntry(string key, string value, string culture)
         {
             if (Exists(key, culture))
@@ -33,6 +46,7 @@ namespace AspNetCoreLocalizer.Providers
             }
         }
 
+        /// <inheritdoc/>
         public void AddEntry(string key, string value, string culture)
         {
             var entry = LocalizerEntryFactory.CreateLocalizerEntry(key, value, culture);
@@ -44,7 +58,7 @@ namespace AspNetCoreLocalizer.Providers
 
             this.AddEntryToStore(entry);
 
-            if (Configuration.CacheEnabled)
+            if (CacheEnabled)
             {
                 var cache = this.GetCacheByCulture(culture, true);
 
@@ -55,6 +69,7 @@ namespace AspNetCoreLocalizer.Providers
             }
         }
 
+        /// <inheritdoc/>
         public void UpdateEntry(string key, string value, string culture)
         {
             var entry = this.GetEntry(key, culture);
@@ -69,7 +84,7 @@ namespace AspNetCoreLocalizer.Providers
 
             this.UpdateEntryInStore(entry);
 
-            if (Configuration.CacheEnabled)
+            if (CacheEnabled)
             {
                 var cache = this.GetCacheByCulture(culture, true);
 
@@ -80,6 +95,7 @@ namespace AspNetCoreLocalizer.Providers
             }
         }
 
+        /// <inheritdoc/>
         public void DeleteEntry(string key, string culture)
         {
             var entry = this.GetEntry(key, culture);
@@ -91,7 +107,7 @@ namespace AspNetCoreLocalizer.Providers
 
             this.DeleteEntryFromStore(entry.Id);
 
-            if (Configuration.CacheEnabled)
+            if (CacheEnabled)
             {
                 var cache = this.GetCacheByCulture(culture, false);
 
@@ -102,11 +118,12 @@ namespace AspNetCoreLocalizer.Providers
             }
         }
 
+        /// <inheritdoc/>
         public LocalizerEntry GetEntry(string key, string culture)
         {
             LocalizerEntry entry = null;
 
-            if (Configuration.CacheEnabled)
+            if (CacheEnabled)
             {
                 var cache = this.GetCacheByCulture(culture, false);
 
@@ -124,14 +141,16 @@ namespace AspNetCoreLocalizer.Providers
             return entry;
         }
 
+        /// <inheritdoc/>
         public bool Exists(string key, string culture)
         {
             return GetEntry(key, culture) != null;
         }
 
+        /// <inheritdoc/>
         public void ClearAll()
         {
-            if (Configuration.CacheEnabled)
+            if (CacheEnabled)
             {
                 var cacheList = (List<ICache>)CacheManager.Instance.ListCaches();
                 cacheList = cacheList.Where(x => x.Name.StartsWith(Constants.CacheNamePrefix)).ToList();
@@ -150,14 +169,19 @@ namespace AspNetCoreLocalizer.Providers
 
         #region Abstraction
 
+        /// <inheritdoc/>
         public abstract LocalizerEntry GetEntryFromStore(string key, string culture);
 
+        /// <inheritdoc/>
         public abstract void AddEntryToStore(LocalizerEntry entry);
 
+        /// <inheritdoc/>
         public abstract void UpdateEntryInStore(LocalizerEntry entry);
-
+        
+        /// <inheritdoc/>
         public abstract void DeleteEntryFromStore(string id);
-
+        
+        /// <inheritdoc/>
         public abstract void ClearAllFromStore();
 
         #endregion
@@ -166,9 +190,9 @@ namespace AspNetCoreLocalizer.Providers
 
         private ICache<LocalizerEntry, string> GetCacheByCulture(string culture, bool createIfNotExist = false)
         {
-            if (!Configuration.CacheEnabled)
+            if (!CacheEnabled)
             {
-                throw new Exception("Cache is not enabled [Configuration.CacheEnabled]");
+                throw new Exception("Cache is not enabled [CacheEnabled]");
             }
 
             var cacheName = $"{Constants.CacheNamePrefix}{culture}";
@@ -181,7 +205,7 @@ namespace AspNetCoreLocalizer.Providers
                 {
                     if (cache == null)
                     {
-                        cache = CacheFactory.CreateCache<LocalizerEntry, string>(cacheName, Configuration.CacheLimitSize);
+                        cache = CacheFactory.CreateCache<LocalizerEntry, string>(cacheName, CacheLimitSize);
                     }
                 }
             }

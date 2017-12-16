@@ -1,12 +1,14 @@
-﻿using AspNetCoreLocalizer.Abstraction;
+﻿using System;
+using AspNetCoreLocalizer.Abstraction;
 using AspNetCoreLocalizer.Services;
 
 namespace AspNetCoreLocalizer
 {
     public class Localizer
     {
-
         #region Fields
+
+        private ILocalizationProvider _localizationProvider;
 
         private ILocalizerService _localizerService;
 
@@ -14,11 +16,44 @@ namespace AspNetCoreLocalizer
 
         #endregion
 
+        #region Propertieis
+
+        public ILocalizationProvider LocalizationProvider
+        {
+            set => _localizationProvider = value;
+            get
+            {
+                if (_localizationProvider == null)
+                {
+                    throw new Exception("Localization provider has not been configured yet.")
+                    {
+                        HelpLink = "https://github.com/almez/AspNetCoreLocalizer"
+                    };
+                }
+                return _localizationProvider;
+            }
+        }
+
+        public ILocalizerService LocalizerService
+        {
+            set => _localizerService = value;
+            get
+            {
+                if (_localizerService == null)
+                {
+                    _localizerService = new LocalizerService(this.LocalizationProvider);
+                }
+                return _localizerService;
+            }
+        }
+
+        #endregion
+
         #region C'tor
 
         private Localizer()
         {
-            _localizerService = new LocalizerService(Configuration.LocalizationProvider);
+
         }
 
         #endregion
@@ -50,18 +85,31 @@ namespace AspNetCoreLocalizer
 
         public string this[string key, string culture]
         {
-            get => _localizerService.GetLocalizedValue(key, culture);
-            set => _localizerService.SetEntry(key, value, culture);
+            get => this.LocalizerService.GetLocalizedValue(key, culture);
+            set => this.LocalizerService.SetEntry(key, value, culture);
         }
 
         public string this[string key]
         {
-            get => _localizerService.GetLocalizedValue(key);
+            get => this.LocalizerService.GetLocalizedValue(key);
         }
 
         #endregion
 
-        public void ClearAll() => _localizerService.ClearAll();
+        #region Public API's
+
+        public void ClearAll() => this.LocalizerService.ClearAll();
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void RegisterProvider(ILocalizationProvider localizationProvider)
+        {
+            this.LocalizerService = new LocalizerService(localizationProvider);
+        }
+
+        #endregion
 
     }
 }

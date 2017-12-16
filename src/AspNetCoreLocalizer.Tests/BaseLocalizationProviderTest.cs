@@ -121,7 +121,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            AspNetCoreLocalizer.Configuration.CacheEnabled = true;
+            this._provider.CacheEnabled = true;
 
             //Act
             _provider.AddEntry("Welcome", "Welcome (TR)", "tr-TR");
@@ -149,7 +149,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            AspNetCoreLocalizer.Configuration.CacheEnabled = false;
+            this._provider.CacheEnabled = false;
 
             //Act
             _provider.AddEntry("Welcome", "Welcome (TR)", "tr-TR");
@@ -211,7 +211,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = true;
+            this._provider.CacheEnabled = true;
 
             _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
 
@@ -233,7 +233,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = false;
+            this._provider.CacheEnabled = false;
 
             _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
 
@@ -289,7 +289,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = true;
+            this._provider.CacheEnabled = true;
 
             _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
 
@@ -310,7 +310,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = false;
+            this._provider.CacheEnabled = false;
 
             _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
 
@@ -363,7 +363,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = true;
+            this._provider.CacheEnabled = true;
 
             _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
 
@@ -383,7 +383,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = false;
+            this._provider.CacheEnabled = false;
 
             _provider.AddEntry("Welcome", "Merhaba", "tr-TR");
 
@@ -438,7 +438,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.InitializeProvider();
 
-            Configuration.CacheEnabled = true;
+            this._provider.CacheEnabled = true;
 
             _provider.AddEntry("Welcome", "Welcome (TR)", "tr-TR");
             _provider.AddEntry("Welcome", "Welcome (AR)", "ar-AR");

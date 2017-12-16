@@ -32,7 +32,7 @@ namespace AspNetCoreLocalizer.Services
             var result = this._localizationProvider.GetEntry(key, culture);
 
             // fallback logic
-            if (result == null & Configuration.FallbackEnabled)
+            if (result == null & _localizationProvider.FallbackEnabled)
             {
                 CultureInfo cultureInfo = new CultureInfo(culture);
                 do

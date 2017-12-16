@@ -31,7 +31,7 @@ namespace AspNetCoreLocalizer.Tests
             _mockLocalizationProvider = new Mock<ILocalizationProvider>();
             _localizerService = new LocalizerService(_mockLocalizationProvider.Object);
 
-            Configuration.FallbackEnabled = true;
+            this._mockLocalizationProvider.Setup(p => p.FallbackEnabled).Returns(true);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace AspNetCoreLocalizer.Tests
             //Arrange
             this.Initialize();
 
-            Configuration.FallbackEnabled = false;
+            this._mockLocalizationProvider.Setup(p => p.FallbackEnabled).Returns(false);
 
             //Act
             var result = _localizerService.GetLocalizedValue("Welcome", "en-US");
@@ -103,7 +103,7 @@ namespace AspNetCoreLocalizer.Tests
 
             _mockLocalizationProvider.Setup(p => p.GetEntry("Welcome", It.IsAny<string>()));
 
-            Configuration.FallbackEnabled = true;
+            this._mockLocalizationProvider.Setup(p => p.FallbackEnabled).Returns(true);
 
             //Act
             var result = _localizerService.GetLocalizedValue("Welcome", "en-US");

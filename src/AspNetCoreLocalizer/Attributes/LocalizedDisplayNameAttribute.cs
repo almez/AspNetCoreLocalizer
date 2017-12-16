@@ -26,7 +26,7 @@ namespace AspNetCoreLocalizer.Attributes
             this._resourceKey = resourceKey;
         }
 
-        public LocalizedDisplayNameAttribute(string resourceKey) : this(new LocalizerService(Configuration.LocalizationProvider))
+        public LocalizedDisplayNameAttribute(string resourceKey) : this(Localizer.Instance.LocalizerService)
         {
             this._resourceKey = resourceKey;
         }
