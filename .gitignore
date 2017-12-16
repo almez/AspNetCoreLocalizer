@@ -24,3 +24,4 @@
 tools/**
 !tools/packages.config
 /src/AspNetCoreLocalizer.Tests/bin/Release/netcoreapp2.0
+/src/AspNetCoreLocalizer.Site

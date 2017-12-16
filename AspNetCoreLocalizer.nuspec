@@ -15,6 +15,7 @@
     <tags>.NETCORE2.0 Localization Globalization Internationalization</tags>
     <dependencies>
       <dependency id="CachingManager" version="1.0.21" />
+      <dependency id="Microsoft.AspNetCore.Mvc.DataAnnotations" version="2.0.1" />
     </dependencies>
   </metadata>
 </package>
