@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using AspNetCoreLocalizer.Abstraction;
+﻿using AspNetCoreLocalizer.Abstraction;
 using AspNetCoreLocalizer.Services;
 
 namespace AspNetCoreLocalizer

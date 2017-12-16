@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AspNetCoreLocalizer.Abstraction;
+﻿using AspNetCoreLocalizer.Abstraction;
 using AspNetCoreLocalizer.Domain;
 using AspNetCoreLocalizer.Services;
 using Moq;

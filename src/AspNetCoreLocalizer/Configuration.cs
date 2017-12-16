@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using CachingManager;
 using AspNetCoreLocalizer.Abstraction;
 
 namespace AspNetCoreLocalizer

@@ -4,7 +4,7 @@ using AspNetCoreLocalizer.Services;
 
 namespace AspNetCoreLocalizer.Attributes
 {
-    public class LocalizedRequiredAttribute : RequiredAttribute
+    public class LocalizedRequiredSelectAttribute : RequiredAttribute
     {
         #region Fields
 
@@ -16,19 +16,19 @@ namespace AspNetCoreLocalizer.Attributes
 
         #region C'tor
 
-        private LocalizedRequiredAttribute(ILocalizerService localizerService)
+        private LocalizedRequiredSelectAttribute(ILocalizerService localizerService)
         {
             this._localizerService = localizerService;
         }
 
-        internal LocalizedRequiredAttribute(ILocalizerService localizerService, string resourceKey = null) : this(localizerService)
+        internal LocalizedRequiredSelectAttribute(ILocalizerService localizerService, string resourceKey = null) : this(localizerService)
         {
-            this._resourceKey = resourceKey ?? Constants.DefaultRequiredAttributeResourceKey;
+            this._resourceKey = resourceKey ?? Constants.DefaultRequiredSelectAttributeResourceKey;
 
             this.LocalizeErrorMessage();
         }
 
-        public LocalizedRequiredAttribute(string resourceKey = null) : 
+        public LocalizedRequiredSelectAttribute(string resourceKey = null) : 
             this(new LocalizerService(Configuration.LocalizationProvider), resourceKey)
         {
             
@@ -42,7 +42,7 @@ namespace AspNetCoreLocalizer.Attributes
         {
             var result = _localizerService.GetLocalizedValue(this._resourceKey);
 
-            this.ErrorMessage = string.IsNullOrEmpty(result) ? Constants.DefaultRequiredAttributeResourceValue : result;
+            this.ErrorMessage = string.IsNullOrEmpty(result) ? Constants.DefaultRequiredSelectAttributeResourceValue : result;
         }
 
         #endregion
